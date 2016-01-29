@@ -1,11 +1,11 @@
 require 'erb'
 
 class SmarfDoc::TestCase
-  attr_reader :request, :response, :created_at, :note
+  attr_reader :request, :response, :created_at, :note, :aside
   attr_accessor :template
 
-  def initialize(request, response, note = '')
-    @request, @response, @note = request, response, note
+  def initialize(request, response, note = '', aside = '')
+    @request, @response, @note, @aside = request, response, note, aside
     @created_at         = Time.now
   end
 

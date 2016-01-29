@@ -19,20 +19,26 @@ class SmarfDoc
     @note = msg || ''
   end
 
+  def aside(msg)
+    @aside = ''
+    @aside = "<aside class='notice'>\n #{msg}\n</aside>" if msg
+  end
+
   def run!(request, response)
     @skip += 1
     if @skip == 2 # Gross
       @skip = 0
       return
     end
-    add_test_case(request, response, @note)
+    add_test_case(request, response, @note, @aside)
     @note = ''
+    @aside = ''
     @skip = 0
     self
   end
 
-  def add_test_case(request, response, note)
-    test = self.class::TestCase.new(request, response, note)
+  def add_test_case(request, response, note, aside)
+    test = self.class::TestCase.new(request, response, note, aside)
     test.template = self.class::Conf.template
     self.tests << test
   end
@@ -74,6 +80,10 @@ class SmarfDoc
 
   def self.note(msg)
     current.note(msg)
+  end
+
+  def self.aside(msg)
+    current.aside(msg)
   end
 
   def self.current

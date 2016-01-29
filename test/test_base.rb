@@ -54,7 +54,7 @@ class TestBase < SmarfDocTest
     assert_equal 'api/noskip', tests.first.request.path,
       "DYS Did not skip tests."
   end
-  
+
   def test_multiple_skips
     file = SmarfDoc::Conf.output_file
     tests= SmarfDoc.current.tests
@@ -81,10 +81,23 @@ class TestBase < SmarfDocTest
     tests= SmarfDoc.current.tests
     first = Request.new("GET", {id: 12}, 'api/skip')
     last  = Request.new("GET", {id: 12}, 'api/noskip')
-    SmarfDoc.note "안녕하세요"
+    SmarfDoc.note("안녕하세요")
     SmarfDoc.run!(first, response)
     SmarfDoc.run!(last, response)
     assert_includes tests.first.compile_template, "안녕하세요",
       "Could not find note in documentation."
+  end
+
+  def test_aside
+    file = SmarfDoc::Conf.output_file
+    tests= SmarfDoc.current.tests
+    first = Request.new("GET", {id: 12}, 'api/skip')
+    last  = Request.new("GET", {id: 12}, 'api/noskip')
+    SmarfDoc.aside("Too many docs")
+    SmarfDoc.run!(first, response)
+    SmarfDoc.run!(last, response)
+    assert_includes tests.first.compile_template,
+      "<aside class='notice'>\n Too many docs\n</aside>",
+      "Could not find aside in documentation."
   end
 end
