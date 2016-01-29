@@ -5,4 +5,6 @@ You can use ERB to format each test case.
 <%= response.body %>
 <%= note %>
 <%= aside %>
-<%= information %>
+<%= category %>
+<%= title %>
+<%= description %>

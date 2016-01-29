@@ -24,26 +24,35 @@ class SmarfDoc
     @aside = "<aside class='notice'>\n #{msg}\n</aside>" if msg
   end
 
-  def information(test_information)
-    @information = test_information || {}
+  def category(test_category)
+    @category = test_category || ''
+  end
+
+  def title(msg)
+    @title = msg || ''
+  end
+
+  def description(msg)
+    @description = msg || ''
   end
 
   def run!(request, response)
+    @category ||= ''
     @skip += 1
     if @skip == 2 # Gross
       @skip = 0
       return
     end
-    add_test_case(request, response, @note, @aside, @information)
+    add_test_case(request, response, @note, @aside, @category, @title, @description)
     @note = ''
     @aside = ''
-    @information = {}
+    @category = ''
     @skip = 0
     self
   end
 
-  def add_test_case(request, response, note, aside, information)
-    test = self.class::TestCase.new(request, response, note, aside, information)
+  def add_test_case(request, response, note, aside, category, title, description)
+    test = self.class::TestCase.new(request, response, note, aside, category, title, description)
     test.template = self.class::Conf.template
     self.tests << test
   end
@@ -91,8 +100,16 @@ class SmarfDoc
     current.aside(msg)
   end
 
-  def self.information(test_information)
-    current.information(test_information)
+  def self.category(test_category)
+    current.category(test_category)
+  end
+
+  def self.title(msg)
+    current.aside(msg)
+  end
+
+  def self.description(msg)
+    current.aside(msg)
   end
 
   def self.current

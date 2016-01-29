@@ -101,20 +101,40 @@ class TestBase < SmarfDocTest
       "Could not find aside in documentation."
   end
 
-  def test_information
+  def test_category
     file = SmarfDoc::Conf.output_file
     tests= SmarfDoc.current.tests
     first = Request.new("GET", {id: 12}, 'api/skip')
     last  = Request.new("GET", {id: 12}, 'api/noskip')
-    SmarfDoc.information({
-      note: "This is a note",
-      aside: "This is an aside"
-      })
+    SmarfDoc.category("Test category")
     SmarfDoc.run!(first, response)
     SmarfDoc.run!(last, response)
-    assert_includes tests.first.compile_template, "This is a note",
-      "Could not find note in documentation."
-    assert_includes tests.first.compile_template, "This is an aside",
-      "Could not find aside in documentation."
+    assert_includes tests.first.compile_template,
+      "Test category",
+      "Could not find category in documentation."
+  end
+
+  def test_title
+    file = SmarfDoc::Conf.output_file
+    tests= SmarfDoc.current.tests
+    first = Request.new("GET", {id: 12}, 'api/skip')
+    last  = Request.new("GET", {id: 12}, 'api/noskip')
+    SmarfDoc.title("Test title")
+    SmarfDoc.run!(first, response)
+    SmarfDoc.run!(last, response)
+    assert_includes tests.first.compile_template, "Test title",
+      "Could not find title in documentation."
+  end
+
+  def test_description
+    file = SmarfDoc::Conf.output_file
+    tests= SmarfDoc.current.tests
+    first = Request.new("GET", {id: 12}, 'api/skip')
+    last  = Request.new("GET", {id: 12}, 'api/noskip')
+    SmarfDoc.description("Test description")
+    SmarfDoc.run!(first, response)
+    SmarfDoc.run!(last, response)
+    assert_includes tests.first.compile_template, "Test description",
+      "Could not find description in documentation."
   end
 end
