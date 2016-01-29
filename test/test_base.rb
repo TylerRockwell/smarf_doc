@@ -100,4 +100,21 @@ class TestBase < SmarfDocTest
       "<aside class='notice'>\n Too many docs\n</aside>",
       "Could not find aside in documentation."
   end
+
+  def test_information
+    file = SmarfDoc::Conf.output_file
+    tests= SmarfDoc.current.tests
+    first = Request.new("GET", {id: 12}, 'api/skip')
+    last  = Request.new("GET", {id: 12}, 'api/noskip')
+    SmarfDoc.information({
+      note: "This is a note",
+      aside: "This is an aside"
+      })
+    SmarfDoc.run!(first, response)
+    SmarfDoc.run!(last, response)
+    assert_includes tests.first.compile_template, "This is a note",
+      "Could not find note in documentation."
+    assert_includes tests.first.compile_template, "This is an aside",
+      "Could not find aside in documentation."
+  end
 end
