@@ -1,5 +1,3 @@
-require "simplecov"
-SimpleCov.start
 require_relative '../lib/smarf_doc'
 require 'minitest/autorun'
 require 'minitest/pride'
