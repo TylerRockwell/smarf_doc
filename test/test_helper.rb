@@ -9,10 +9,11 @@ class SmarfDocTest < Minitest::Test
       c.template_file = 'test/fake_template.md'
       c.output_file   = 'test/fake_output.md'
     end
+    @smarf = SmarfDoc.current
   end
 
   def teardown
-    SmarfDoc.finish!
+    @smarf.finish!
   end
 
   # Include some fake structs that act like response/request objects.

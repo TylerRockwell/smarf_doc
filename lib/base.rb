@@ -38,7 +38,7 @@ class SmarfDoc
 
   def run!(request, response)
     @category ||= ''
-    if @skip == true
+    if @skip
       @skip = false
       return
     end
@@ -50,8 +50,8 @@ class SmarfDoc
   end
 
   def add_test_case(request, response, note, aside, category, title, description)
-    test = self.class::TestCase.new(request, response, note, aside, category, title, description)
-    test.template = self.class::Conf.template
+    test = SmarfDoc::TestCase.new(request, response, note, aside, category, title, description)
+    test.template = SmarfDoc::Conf.template
     self.tests << test
   end
 
@@ -74,41 +74,13 @@ class SmarfDoc
     end
   end
 
+  def finish!
+    sort_by_url!
+    output_testcases_to_file
+    clean_up!
+  end
+
 # = = = =
-
-  def self.finish!
-    current.sort_by_url!
-    current.output_testcases_to_file
-    current.clean_up!
-  end
-
-  def self.run!(request, response)
-    current.run!(request, response)
-  end
-
-  def self.skip
-    current.skip
-  end
-
-  def self.note(msg)
-    current.note(msg)
-  end
-
-  def self.aside(msg)
-    current.aside(msg)
-  end
-
-  def self.category(test_category)
-    current.category(test_category)
-  end
-
-  def self.title(msg)
-    current.aside(msg)
-  end
-
-  def self.description(msg)
-    current.aside(msg)
-  end
 
   def self.current
     Thread.current[:dys_instance] ||= self.new
