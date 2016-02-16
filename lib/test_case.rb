@@ -1,7 +1,7 @@
 require 'erb'
 
 class SmarfDoc::TestCase
-  attr_reader :request, :response, :created_at, :note, :aside, :information, :category, :title, :description
+  attr_reader :request, :response, :created_at, :aside, :information
   attr_accessor :template
 
   def initialize(request, response, aside = '', information = {})

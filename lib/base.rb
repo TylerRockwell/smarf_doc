@@ -18,7 +18,7 @@ class SmarfDoc
 
   def aside(msg)
     @aside = ''
-    @aside = "<aside class='notice'>\n #{msg}\n</aside>" if msg
+    @aside = "<aside class='notice'>\n #{msg}\n</aside>"
   end
 
   def information(key, value)

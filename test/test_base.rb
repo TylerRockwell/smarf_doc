@@ -48,9 +48,9 @@ class TestBase < SmarfDocTest
     @smarf.run!(first, response)
     @smarf.run!(last, response)
     assert_equal 1, tests.length,
-      "DYS Did not skip tests."
+      "Smarf did not skip tests."
     assert_equal 'api/noskip', tests.first.request.path,
-      "DYS Did not skip tests."
+      "Smarf did not skip tests."
   end
 
   def test_multiple_skips
@@ -66,11 +66,11 @@ class TestBase < SmarfDocTest
     @smarf.run!(third, response)
     @smarf.run!(fourth, response)
     assert_equal 2, tests.length,
-      "DYS Skipped 2 tests."
+      "Smarf skipped 2 tests."
     assert_equal 'api/noskip1', tests[0].request.path,
-      "DYS Did not skip first unskipped test."
+      "Smarf did not skip first unskipped test."
     assert_equal 'api/noskip2', tests[1].request.path,
-      "DYS Did not skip second unskipped test."
+      "Smarf did not skip second unskipped test."
   end
 
   def test_note
