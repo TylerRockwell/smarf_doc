@@ -9,7 +9,7 @@ class SmarfDocTest < Minitest::Test
       c.template_file = 'test/fake_template.md'
       c.output_file   = 'test/fake_output.md'
     end
-    @smarf = SmarfDoc.current
+    @smarf = SmarfDoc.new
   end
 
   def teardown

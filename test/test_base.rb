@@ -41,7 +41,6 @@ class TestBase < SmarfDocTest
   end
 
   def test_skip
-    file = SmarfDoc::Conf.output_file
     tests= @smarf.tests
     first = Request.new("GET", {id: 12}, 'api/skip')
     last  = Request.new("GET", {id: 12}, 'api/noskip')
@@ -55,7 +54,6 @@ class TestBase < SmarfDocTest
   end
 
   def test_multiple_skips
-    file = SmarfDoc::Conf.output_file
     tests= @smarf.tests
     first = Request.new("GET", {id: 12}, 'api/noskip1')
     second = Request.new("GET", {id: 12}, 'api/skip1')
@@ -76,11 +74,10 @@ class TestBase < SmarfDocTest
   end
 
   def test_note
-    file = SmarfDoc::Conf.output_file
     tests= @smarf.tests
     first = Request.new("GET", {id: 12}, 'api/skip')
     last  = Request.new("GET", {id: 12}, 'api/noskip')
-    @smarf.note("안녕하세요")
+    @smarf.information(:note, "안녕하세요")
     @smarf.run!(first, response)
     @smarf.run!(last, response)
     assert_includes tests.first.compile_template, "안녕하세요",
@@ -88,7 +85,6 @@ class TestBase < SmarfDocTest
   end
 
   def test_aside
-    file = SmarfDoc::Conf.output_file
     tests= @smarf.tests
     first = Request.new("GET", {id: 12}, 'api/skip')
     last  = Request.new("GET", {id: 12}, 'api/noskip')
@@ -101,11 +97,10 @@ class TestBase < SmarfDocTest
   end
 
   def test_category
-    file = SmarfDoc::Conf.output_file
     tests= @smarf.tests
     first = Request.new("GET", {id: 12}, 'api/skip')
     last  = Request.new("GET", {id: 12}, 'api/noskip')
-    @smarf.category("Test category")
+    @smarf.information(:category, "Test category")
     @smarf.run!(first, response)
     @smarf.run!(last, response)
     assert_includes tests.first.compile_template,
@@ -114,11 +109,10 @@ class TestBase < SmarfDocTest
   end
 
   def test_title
-    file = SmarfDoc::Conf.output_file
     tests= @smarf.tests
     first = Request.new("GET", {id: 12}, 'api/skip')
     last  = Request.new("GET", {id: 12}, 'api/noskip')
-    @smarf.title("Test title")
+    @smarf.information(:title, "Test title")
     @smarf.run!(first, response)
     @smarf.run!(last, response)
     assert_includes tests.first.compile_template, "Test title",
@@ -126,11 +120,10 @@ class TestBase < SmarfDocTest
   end
 
   def test_description
-    file = SmarfDoc::Conf.output_file
     tests= @smarf.tests
     first = Request.new("GET", {id: 12}, 'api/skip')
     last  = Request.new("GET", {id: 12}, 'api/noskip')
-    @smarf.description("Test description")
+    @smarf.information(:description, "Test description")
     @smarf.run!(first, response)
     @smarf.run!(last, response)
     assert_includes tests.first.compile_template, "Test description",

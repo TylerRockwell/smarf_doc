@@ -3,6 +3,7 @@ class SmarfDoc
   def initialize
     @tests = []
     @skip = false
+    @information = {}
   end
 
   def sort_by_url!
@@ -15,42 +16,26 @@ class SmarfDoc
     @tests = []
   end
 
-  def note(msg)
-    @note = msg || ''
-  end
-
   def aside(msg)
     @aside = ''
     @aside = "<aside class='notice'>\n #{msg}\n</aside>" if msg
   end
 
-  def category(test_category)
-    @category = test_category || ''
-  end
-
-  def title(msg)
-    @title = msg || ''
-  end
-
-  def description(msg)
-    @description = msg || ''
+  def information(key, value)
+    @information[key] = value
   end
 
   def run!(request, response)
-    @category ||= ''
     if @skip
       @skip = false
       return
     end
-    add_test_case(request, response, @note, @aside, @category, @title, @description)
-    @note = ''
-    @aside = ''
-    @category = ''
+    add_test_case(request, response)
     self
   end
 
-  def add_test_case(request, response, note, aside, category, title, description)
-    test = SmarfDoc::TestCase.new(request, response, note, aside, category, title, description)
+  def add_test_case(request, response)
+    test = SmarfDoc::TestCase.new(request, response, @aside, @information)
     test.template = SmarfDoc::Conf.template
     self.tests << test
   end
@@ -81,10 +66,6 @@ class SmarfDoc
   end
 
 # = = = =
-
-  def self.current
-    Thread.current[:dys_instance] ||= self.new
-  end
 
   def self.config(&block)
     yield(self::Conf)
