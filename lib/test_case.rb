@@ -5,7 +5,7 @@ class SmarfDoc::TestCase
   attr_accessor :template
 
   def initialize(request, response, aside = '', information = {})
-    @request, @response, @aside, @category, @title = request, response, aside, category, title
+    @request, @response, @aside, = request, response, aside
     @information = information
     @created_at         = Time.now
   end
