@@ -31,12 +31,21 @@ To run doc generation after every controller spec, put this into your `teardown`
 
 ## Minitest Usage
 
+Create your smarf by putting the creation in setup
+```ruby
+class ActionController::TestCase < ActiveSupport::TestCase
+  def setup
+    @smarf = SmarfDoc.new
+  end
+end
+```
+
 Running it for every test case:
 
 ```ruby
 class ActionController::TestCase < ActiveSupport::TestCase
   def teardown
-    SmarfDoc.run!(request, response)
+    @smarf.run!(request, response)
   end
 end
 ```
@@ -47,14 +56,14 @@ end
 def test_some_api
   get :index, :users
   assert response.status == 200
-  SmarfDoc.run!(request, response)
+  @smarf.run!(request, response)
 end
 ```
 
 Then put this at the bottom of your `test_helper.rb`:
 
 ```ruby
-MiniTest::Unit.after_tests { SmarfDoc.finish! }
+MiniTest::Unit.after_tests { @smarf.finish! }
 ```
 
 ## Rspec Usage
@@ -67,7 +76,7 @@ RSpec.configure do |config|
     SmarfDoc.run!(request, response)
   end
 
-  config.after(:suite) { SmarfDoc.finish! }
+  config.after(:suite) { @smarf.finish! }
 end
 ```
 
@@ -78,18 +87,42 @@ It will log all requests and responses by default, but you can add some **option
 
 ### Skipping documentation
 
+To skip a single test, use `@smarf.skip`
+
 ```ruby
 def test_stuff
-  SmarfDoc.skip
-  # Blahhh
+  @smarf.skip
+  # Won't generate docs for this test
 end
 ```
 
-## Adding notes
+To skip all tests, use `@smarf.skip_all`
 
 ```ruby
 def test_stuff
-  SmarfDoc.note "안녕하세요. This is a note."
-  # Blahhh
+  @smarf.skip_all
+  # Won't generate docs for any tests
+end
+```
+
+To skip all tests except certain ones, use skip_all above, then add `@smarf.run_this_anyway` to the tests you want to run
+
+```ruby
+def test_stuff
+  @smarf.run_this_anyway
+  # Generates docs for this test even if you used skip_all
+end
+```
+
+
+## Adding notes or other information
+
+You can add notes or any other type of information to the tests
+by sending a key and value to `@smarf.information`.
+
+```ruby
+def test_stuff
+  @smarf.information(:note, "This test is awesome")
+  # More test stuff
 end
 ```

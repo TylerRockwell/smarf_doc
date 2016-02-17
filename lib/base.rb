@@ -2,8 +2,9 @@ class SmarfDoc
   attr_accessor :tests
   def initialize
     @tests = []
-    @skip = false
+    @skip_one = false
     @information = {}
+    @skip_all = false
   end
 
   def sort_by_url!
@@ -26,8 +27,10 @@ class SmarfDoc
   end
 
   def run!(request, response)
-    if @skip
-      @skip = false
+    if @skip_one || @skip_all
+      add_test_case(request, response) if @run_anyway
+      @skip_one = false
+      @run_anyway = false
       return
     end
     add_test_case(request, response)
@@ -41,7 +44,15 @@ class SmarfDoc
   end
 
   def skip
-    @skip = true
+    @skip_one = true
+  end
+
+  def skip_all
+    @skip_all = true
+  end
+
+  def run_this_anyway
+    @run_anyway = true
   end
 
   def output_testcases_to_file

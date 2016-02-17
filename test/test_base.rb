@@ -65,11 +65,29 @@ class TestBase < SmarfDocTest
     @smarf.run!(third, response)
     @smarf.run!(fourth, response)
     assert_equal 2, tests.length,
-      "Smarf skipped 2 tests."
+      "Smarf skipped the wrong number of tests."
     assert_equal 'api/noskip1', tests[0].request.path,
       "Smarf did not skip first unskipped test."
     assert_equal 'api/noskip2', tests[1].request.path,
       "Smarf did not skip second unskipped test."
+  end
+
+  def test_skip_all
+    tests = @smarf.tests
+    first = Request.new("GET", {id: 12}, 'api/skip1')
+    second = Request.new("GET", {id: 12}, 'api/skip2')
+    third  = Request.new("GET", {id: 12}, 'api/noskip1')
+    fourth  = Request.new("GET", {id: 12}, 'api/skip3')
+    @smarf.skip_all
+    @smarf.run!(first, response)
+    @smarf.run!(second, response)
+    @smarf.run_this_anyway
+    @smarf.run!(third, response)
+    @smarf.run!(fourth, response)
+    assert_equal 1, tests.length,
+      "Smarf did not skip enough tests."
+    assert_equal 'api/noskip1', tests[0].request.path,
+      "Smarf did not skip first 2 tests."
   end
 
   def test_note
