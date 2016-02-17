@@ -1,7 +1,6 @@
 require_relative "test_helper"
 class TestBase < SmarfDocTest
   def test_run!
-    # smarf = SmarfDoc.current
     tests = @smarf.tests
     assert_equal 0, tests.length,
       "Expected current tests to be an empty array"
@@ -41,7 +40,7 @@ class TestBase < SmarfDocTest
   end
 
   def test_skip
-    tests= @smarf.tests
+    tests = @smarf.tests
     first = Request.new("GET", {id: 12}, 'api/skip')
     last  = Request.new("GET", {id: 12}, 'api/noskip')
     @smarf.skip
@@ -54,7 +53,7 @@ class TestBase < SmarfDocTest
   end
 
   def test_multiple_skips
-    tests= @smarf.tests
+    tests = @smarf.tests
     first = Request.new("GET", {id: 12}, 'api/noskip1')
     second = Request.new("GET", {id: 12}, 'api/skip1')
     third  = Request.new("GET", {id: 12}, 'api/skip2')
@@ -74,7 +73,7 @@ class TestBase < SmarfDocTest
   end
 
   def test_note
-    tests= @smarf.tests
+    tests = @smarf.tests
     first = Request.new("GET", {id: 12}, 'api/skip')
     last  = Request.new("GET", {id: 12}, 'api/noskip')
     @smarf.information(:note, "안녕하세요")
@@ -85,7 +84,7 @@ class TestBase < SmarfDocTest
   end
 
   def test_aside
-    tests= @smarf.tests
+    tests = @smarf.tests
     first = Request.new("GET", {id: 12}, 'api/skip')
     last  = Request.new("GET", {id: 12}, 'api/noskip')
     @smarf.aside("Too many docs")
@@ -97,7 +96,7 @@ class TestBase < SmarfDocTest
   end
 
   def test_category
-    tests= @smarf.tests
+    tests = @smarf.tests
     first = Request.new("GET", {id: 12}, 'api/skip')
     last  = Request.new("GET", {id: 12}, 'api/noskip')
     @smarf.information(:category, "Test category")
@@ -109,7 +108,7 @@ class TestBase < SmarfDocTest
   end
 
   def test_title
-    tests= @smarf.tests
+    tests = @smarf.tests
     first = Request.new("GET", {id: 12}, 'api/skip')
     last  = Request.new("GET", {id: 12}, 'api/noskip')
     @smarf.information(:title, "Test title")
@@ -120,7 +119,7 @@ class TestBase < SmarfDocTest
   end
 
   def test_description
-    tests= @smarf.tests
+    tests = @smarf.tests
     first = Request.new("GET", {id: 12}, 'api/skip')
     last  = Request.new("GET", {id: 12}, 'api/noskip')
     @smarf.information(:description, "Test description")

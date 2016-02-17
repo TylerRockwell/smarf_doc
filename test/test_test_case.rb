@@ -1,7 +1,6 @@
 require_relative "test_helper"
 
 class TestTestCase < SmarfDocTest
-
   def test_case
     @test_case ||= SmarfDoc::TestCase.new(request, response)
   end

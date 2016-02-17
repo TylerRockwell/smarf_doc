@@ -1,7 +1,6 @@
 require_relative "test_helper"
 
 class TestConfig < SmarfDocTest
-
   def test_set_configs
     SmarfDoc.config do |c|
       c.template_file = 'test/template.md.erb'
